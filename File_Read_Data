@@ -1,0 +1,79 @@
+# This is two read files into data structures so I can be processed later
+
+import matplotlib.pyplot as plt
+from numpy.fft import fft, ifft
+
+import array as arr
+import numpy as np
+
+data_set = arr.array("i", [])
+
+
+
+#filename = 'C:\\Users\\eric\OneDrive\\Desktop\\Documents\\FFT_Data.txt'
+
+
+
+filename = "FFT_Data.txt"
+filename = "C:\\Users\\eric\OneDrive\\Desktop\\Documents\\FFT_Data.txt"
+filename = "C:\\Users\\eric\projects\\sine_wave_digilent_recordtofile_small.txt"
+filename = "C:\\Users\\eric\projects\\sine_wave_digilent_recordtofile.txt"
+#filename = "C:\\Users\\eric\projects\\square_wave_digilent_recordtofile.txt"
+filename = "C:\\Users\\eric\projects\\small_sine_wave_100Hzv.txt"
+filename = "C:\\Users\\eric\projects\\HP_SigGen_10kHzt.txt"
+filename = "C:\\Users\\eric\projects\\HP_SigGen_10kHzt.txt"
+filename = "C:\\Users\\eric\projects\\HP_SigGen_10kHzt_float64.txt"
+filename = "C:\\Users\\eric\projects\\HP_SigGen_10kHzt_float64_sr200k_max.txt"
+
+file = open(filename , 'r')
+while True:
+    line = file.readline()
+    if not line:
+        break
+    if line[:5]== 'Data:':
+        print('yellow')
+    #print(line)
+    data_set.append(int(line))
+
+
+print(len(data_set))
+Datasize = len(data_set)
+
+plt.figure(figsize = (8, 6))
+plt.plot(data_set)
+plt.ylabel('Amplitude')
+
+plt.show()
+
+sr = 200000
+
+
+data_freq = fft(data_set)/Datasize 
+N = len(data_freq)
+n = np.arange(N)
+T = N/sr
+freq = n/T 
+
+print(len(data_freq))
+
+
+
+
+plt.stem(freq, np.abs(data_freq), 'b', \
+         markerfmt=" ", basefmt="-b")
+plt.xlabel('Freq (Hz)')
+plt.ylabel('FFT Amplitude |X(freq)|')
+plt.xlim(0, 35000)
+
+
+#plt.figure(figsize = (8, 6))
+#plt.plot(abs(data_freq))
+#plt.ylabel('Amplitude')
+plt.show()
+
+#f = open(filename, "r")
+#print(f.read())
+
+
+#print(f.read())
+#print(filename)
